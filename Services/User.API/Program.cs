@@ -9,7 +9,7 @@ var connectionString = builder.Configuration.GetConnectionString("UserDbConnecti
 builder.Services.AddDbContext<UserDbContext>(options => {
     options.UseSqlServer(connectionString);
 });
-builder.Services.AddIdentityCore<User>()
+builder.Services.AddIdentityCore<UserData>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<UserDbContext>();
 
