@@ -7,7 +7,6 @@ using AutoMapper;
 using Item.API.DTO;
 using Item.API.Entities;
 using Item.API.Repositories;
-using Item.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,10 +17,10 @@ namespace Item.API.Controllers
     [Route("[controller]")] 
     public class ItemController: ControllerBase
     {
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<ItemController> _logger;
         private readonly IProductRepository _repository;
         private readonly IMapper _mapper;
-        public ItemController(IMapper mapper, IProductRepository repository, ILogger<WeatherForecastController> logger)
+        public ItemController(IMapper mapper, IProductRepository repository, ILogger<ItemController> logger)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _logger = logger;
