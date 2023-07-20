@@ -40,18 +40,22 @@ namespace Item.API.Repositories
 
         public async Task<Product> GetProduct(Product product)
         {
+            return await _context.Products.Find(p => p.Title.Contains(product.Title) || p.Info.Contains(product.Info) || p.Price == product.Price || p.WeeklyDeal == product.WeeklyDeal || p.CollectionType == product.CollectionType).FirstOrDefaultAsync();
 
-            throw new NotImplementedException();
+        }
+        public async Task<IEnumerable<Product>> GetProducts(Product product)
+        {
+            return await _context.Products.Find(p => p.Title.Contains(product.Title) || p.Info.Contains(product.Info) || p.Price == product.Price || p.WeeklyDeal == product.WeeklyDeal || p.CollectionType == product.CollectionType).ToListAsync();
+
+        }
+        public async Task<IEnumerable<Product>> GetProductByCategory(string categoryName)
+        {
+            return await _context.Products.Find(p => p.CollectionType.Contains(categoryName)).ToListAsync();
         }
 
-        public Task<IEnumerable<Product>> GetProductByCategory(string categoryName)
+        public async Task<IEnumerable<Product>> GetProductByTitle(string title)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Product>> GetProductByName(string name)
-        {
-            throw new NotImplementedException();
+            return await _context.Products.Find(p => p.Title.Contains(title)).ToListAsync();
         }
 
         public async Task<IEnumerable<Product>> GetProducts()
