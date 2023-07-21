@@ -57,6 +57,23 @@ namespace Item.API.Controllers
 
             return Ok( item );
 	}
+        [HttpPut("{id::length(24)}",Name ="Update the item with id")]
+        public async Task<ActionResult <ProductDTO>> UpdateItem(string id,[FromBody] ProductDTO product) {
+
+            try
+            {
+                var tmp = _mapper.Map<Product>(product);
+                tmp.Id = id;
+                var item = await _repository.UpdateProduct(tmp);
+                return Ok(_mapper.Map<ProductDTO>(item));
+            }
+            catch (Exception e)
+            {
+
+                return NotFound(id);
+            }
+        }
+
         [HttpDelete("{id::length(24)}", Name ="Delete Item")]
         public async Task<ActionResult<ProductDTO >> DeleteItem(String id) {
             try { 

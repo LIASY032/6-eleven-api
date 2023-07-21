@@ -67,14 +67,19 @@ namespace Item.API.Repositories
 
         }
 
-        public async Task<bool> UpdateProduct(Product product)
+        public async Task<Product> UpdateProduct(Product product)
         {
             var updateResult = await _context
                                 .Products
                                 .ReplaceOneAsync(filter: g => g.Id == product.Id, replacement: product);
 
-            return updateResult.IsAcknowledged
-                    && updateResult.ModifiedCount > 0;
+            if (updateResult.IsAcknowledged
+                    && updateResult.ModifiedCount > 0) {
+                return product;
+            }
+            else {
+                return null;
+	    }
         }
     }
 }
