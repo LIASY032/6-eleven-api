@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace User.API.Entities
 {
-	public class UserDbContext : IdentityDbContext<User>
+	public class UserDbContext : IdentityDbContext<UserData>
     {
         public UserDbContext(DbContextOptions options) : base(options)
         {
 
         }
-        public DbSet<User> Users { get;set; }
+        public DbSet<UserData> Users { get;set; }
     }
 }
 

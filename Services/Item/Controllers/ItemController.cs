@@ -37,16 +37,13 @@ namespace Item.API.Controllers
         [HttpGet("{id::length(24)}",Name = "Get Item by id")]
         public async Task<ActionResult<ProductDTO>> GetItemByIdAsync(string id)
         {
-            var products = await _repository.GetProduct(id);
-            return Ok(_mapper.Map<ProductDTO>(products));
-        }
-
-        [HttpPut("{id::length(24)}", Name = "Update Item by id")]
-        public async Task<ActionResult<ProductDTO>> UpdateItemByIdAsync(string id, [FromBody] ProductDTO product)
-        {
-            //var products = await _repository.UpdateProduct(product);
-            //return Ok(_mapper.Map<ProductDTO>(products));
-            throw new NotImplementedException();
+            try
+            {
+                var products = await _repository.GetProduct(id);
+                return Ok(_mapper.Map<ProductDTO>(products));
+            }catch (Exception e) {
+                return NotFound("The item with the given ID was not found.");
+	    }
         }
 
         [HttpPost(Name = "Add the Item")]

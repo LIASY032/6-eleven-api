@@ -13,7 +13,7 @@ namespace Item.API.Repositories
 
         Task<Product> GetProduct(Product product);
         Task<Product> CreateProduct(Product product);
-        Task<bool> UpdateProduct(Product product);
+        Task<Product?> UpdateProduct(Product product);
         Task<Product> DeleteProduct(string id);
     }
 }

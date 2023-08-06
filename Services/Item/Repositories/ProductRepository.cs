@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using Item.API.Data;
 using Item.API.Entities;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Item.API.Repositories
@@ -67,7 +68,7 @@ namespace Item.API.Repositories
 
         }
 
-        public async Task<Product> UpdateProduct(Product product)
+        public async Task<Product?> UpdateProduct(Product product)
         {
             var updateResult = await _context
                                 .Products
