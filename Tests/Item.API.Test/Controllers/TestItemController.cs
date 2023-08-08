@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using AutoMapper;
 using FluentAssertions;
 using Item.API.Controllers;
@@ -44,15 +46,22 @@ namespace Item.API.Test.Controllers
         {
 
             var response= await _client.GetAsync("/item");
-            output.WriteLine(await response.Content.ReadAsStringAsync());
+            //output.WriteLine(await response.Content.ReadAsStringAsync());
             Assert.Equal("application/json", response.Content.Headers.ContentType.MediaType);
         }
         [Fact(DisplayName = "GET /item returns is an array")]
         public async void Get_IsArray_GetItem()
         {
             var response = await _client.GetAsync("/item");
-            var content = new Newtonsoft.Json.JsonSerializer().Deserialize<ProductDTO>(new JsonTextReader(new StreamReader( await response.Content.ReadAsStringAsync())));
-            Assert.True(content.GetType().IsArray);
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+            var serializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var content= System.Text.Json.JsonSerializer.Deserialize<List<ProductDTO>>(json, serializerOptions);
+       
+            Assert.True(typeof(IEnumerable).IsAssignableFrom(content.GetType()));
 
             //_repository.Setup(repo => repo.GetProducts());
             //var item = new ItemController(_mapper.Object, _repository.Object, _logger.Object);
