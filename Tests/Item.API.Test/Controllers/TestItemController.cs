@@ -61,13 +61,29 @@ namespace Item.API.Test.Controllers
             };
             var content= System.Text.Json.JsonSerializer.Deserialize<List<ProductDTO>>(json, serializerOptions);
        
-            Assert.True(typeof(IEnumerable).IsAssignableFrom(content.GetType()));
+            Assert.True(typeof(IEnumerable).IsAssignableFrom(content.GetType())|| typeof(ICollection).IsAssignableFrom(content.GetType()));
 
-            //_repository.Setup(repo => repo.GetProducts());
-            //var item = new ItemController(_mapper.Object, _repository.Object, _logger.Object);
-            //var response = await item.GetItemAsync();
-            //Assert.True(response.Value.GetType().IsArray);
 
+        }
+
+        [Fact(DisplayName = "GET /item/{id} returns an item")]
+        public async void Get_Return_A_Item()
+        {
+            var response = await _client.GetAsync("/item");
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+            var serializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var content = System.Text.Json.JsonSerializer.Deserialize<List<ProductDTO>>(json, serializerOptions);
+            response = await _client.GetAsync($"/item/{content[0].Id}");
+            response.EnsureSuccessStatusCode();
+            json = await response.Content.ReadAsStringAsync();
+         
+            var item = System.Text.Json.JsonSerializer.Deserialize<ProductDTO>(json, serializerOptions);
+
+            item.Title.Should().Be(content[0].Title);
 
         }
     }
