@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text.Json;
 using AutoMapper;
 using FluentAssertions;
@@ -86,6 +87,27 @@ namespace Item.API.Test.Controllers
             item.Title.Should().Be(content[0].Title);
 
         }
+
+
+        [Fact(DisplayName = "POST /item Add an Item")]
+        public async void POST_Add_Item()
+        {
+            var newProduct = new ProductDTO() { Info = "Two hundred kilograms without switching shoulder!", Price=0, Title="BAODI", CollectionType="daily" };
+            var response = await _client.PostAsJsonAsync("/item", newProduct);
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+            var serializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var content = System.Text.Json.JsonSerializer.Deserialize<ProductDTO>(json, serializerOptions);
+
+
+            content.Title.Should().Be(newProduct.Title);
+
+        }
+
+
     }
 }
 
