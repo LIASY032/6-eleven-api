@@ -27,6 +27,7 @@ namespace Item.API.Test.Controllers
         private readonly ITestOutputHelper output;
         //private readonly WebApplicationFactory<Program> _factory;
         public HttpClient _client { get; }
+        public string itemId { get; set; }
         public TestItemController(ITestOutputHelper output) {
             var webAppFactory = new WebApplicationFactory<Program>();
             _client = webAppFactory.CreateDefaultClient();
@@ -102,8 +103,48 @@ namespace Item.API.Test.Controllers
             };
             var content = System.Text.Json.JsonSerializer.Deserialize<ProductDTO>(json, serializerOptions);
 
+            this.itemId = content.Id;
+            content.Title.Should().Be(newProduct.Title);
+            content.Info.Should().Be(newProduct.Info);
+
+        }
+
+
+        [Fact(DisplayName = "PUT /item/{id} Update an Item")]
+        public async void PUT_Update_Item()
+        {
+            var newProduct = new ProductDTO() { Info = "Cary two hundred kilograms without switching shoulder!", Price = 0, Title = "WEINI", CollectionType = "daily" };
+            var response = await _client.PutAsJsonAsync($"/item/{itemId}", newProduct);
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+            var serializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var content = System.Text.Json.JsonSerializer.Deserialize<ProductDTO>(json, serializerOptions);
+
 
             content.Title.Should().Be(newProduct.Title);
+            content.Info.Should().Be(newProduct.Info);
+
+        }
+
+        [Fact(DisplayName = "DELETE /item/{id} Delete an Item")]
+        public async void DELETE_Delete_Item()
+        {
+            var newProduct = new ProductDTO() { Info = "Cary two hundred kilograms without switching shoulder!", Price = 0, Title = "WEINI", CollectionType = "daily" };
+            var response = await _client.DeleteAsync($"/item/{itemId}" );
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+            var serializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var content = System.Text.Json.JsonSerializer.Deserialize<ProductDTO>(json, serializerOptions);
+
+
+            content.Title.Should().Be(newProduct.Title);
+            content.Info.Should().Be(newProduct.Info);
 
         }
 
