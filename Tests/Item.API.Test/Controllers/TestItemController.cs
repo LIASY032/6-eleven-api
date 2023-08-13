@@ -113,7 +113,7 @@ namespace Item.API.Test.Controllers
         [Fact(DisplayName = "PUT /item/{id} Update an Item")]
         public async void PUT_Update_Item()
         {
-            var newProduct = new ProductDTO() { Info = "Cary two hundred kilograms without switching shoulder!", Price = 0, Title = "WEINI", CollectionType = "daily" };
+            var newProduct = new ProductDTO() { Info = "Cary two hundred kilograms without switching shoulder!", Price = 0, Title = "WEINIXIONG", CollectionType = "daily" };
             var response = await _client.PutAsJsonAsync($"/item/{itemId}", newProduct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync();
@@ -132,7 +132,7 @@ namespace Item.API.Test.Controllers
         [Fact(DisplayName = "DELETE /item/{id} Delete an Item")]
         public async void DELETE_Delete_Item()
         {
-            var newProduct = new ProductDTO() { Info = "Cary two hundred kilograms without switching shoulder!", Price = 0, Title = "WEINI", CollectionType = "daily" };
+            var newProduct = new ProductDTO() { Info = "Cary two hundred kilograms without switching shoulder!", Price = 0, Title = "WEINIXIONG", CollectionType = "daily" };
             var response = await _client.DeleteAsync($"/item/{itemId}" );
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync();

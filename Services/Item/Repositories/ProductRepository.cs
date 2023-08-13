@@ -68,20 +68,12 @@ namespace Item.API.Repositories
 
         }
 
-        public async Task<Product?> UpdateProduct(Product product)
-        {
-            var updateResult = await _context
-                                .Products
-                                .ReplaceOneAsync(filter: g => g.Id == product.Id, replacement: product);
-
-            if (updateResult.IsAcknowledged
-                    && updateResult.ModifiedCount > 0) {
-                return product;
-            }
-            else {
-                return null;
-	    }
-        }
+        public async Task<Product?> UpdateProduct(Product product) => await _context.Products.FindOneAndUpdateAsync<Product>(g => g.Id == product.Id, Builders<Product>.Update
+        .Set(p => p.Title, product.Title)
+    .Set(p => p.Price, product.Price)
+    .Set(p => p.Info, product.Info)
+    .Set(p => p.Image, product.Image)
+    .Set(p => p.CollectionType, product.CollectionType), new FindOneAndUpdateOptions<Product>{ ReturnDocument= ReturnDocument.After});
     }
 }
 
