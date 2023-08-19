@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using AutoMapper;
+using Common.Extensions;
 using FluentAssertions;
 using Item.API.Controllers;
 using Item.API.DTO;
@@ -19,6 +20,9 @@ using Xunit.Abstractions;
 
 namespace Item.API.Test.Controllers
 {
+    [TestCaseOrderer(
+    ordererTypeName: "Common.Extensions.PriorityOrderer",
+    ordererAssemblyName: "Common")]
     public class TestItemController
     {
         //private Mock< ILogger<ItemController>> _logger;
@@ -90,7 +94,7 @@ namespace Item.API.Test.Controllers
         }
 
 
-        [Fact(DisplayName = "POST /item Add an Item")]
+        [Fact(DisplayName = "POST /item Add an Item"), TestPriority(1)]
         public async void POST_Add_Item()
         {
             var newProduct = new ProductDTO() { Info = "Two hundred kilograms without switching shoulder!", Price=0, Title="BAODI", CollectionType="daily" };
@@ -110,7 +114,7 @@ namespace Item.API.Test.Controllers
         }
 
 
-        [Fact(DisplayName = "PUT /item/{id} Update an Item")]
+        [Fact(DisplayName = "PUT /item/{id} Update an Item"), TestPriority(2)]
         public async void PUT_Update_Item()
         {
             var newProduct = new ProductDTO() { Info = "Cary two hundred kilograms without switching shoulder!", Price = 0, Title = "WEINIXIONG", CollectionType = "daily" };
@@ -129,7 +133,7 @@ namespace Item.API.Test.Controllers
 
         }
 
-        [Fact(DisplayName = "DELETE /item/{id} Delete an Item")]
+        [Fact(DisplayName = "DELETE /item/{id} Delete an Item"), TestPriority(3)]
         public async void DELETE_Delete_Item()
         {
             var newProduct = new ProductDTO() { Info = "Cary two hundred kilograms without switching shoulder!", Price = 0, Title = "WEINIXIONG", CollectionType = "daily" };

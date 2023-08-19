@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Services\Item\Item.API.csproj" />
+    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appsettings.json" Condition="'$(ExcludeConfigFilesFromBuildOutput)'!='true'">
