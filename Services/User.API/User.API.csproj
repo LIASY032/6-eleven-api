@@ -30,11 +30,13 @@
     <None Remove="Entities\" />
     <None Remove="DTO\" />
     <None Remove="Repositories\" />
+    <None Remove="Configurations\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />
     <Folder Include="DTO\" />
     <Folder Include="Repositories\" />
+    <Folder Include="Configurations\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Item\Item.API.csproj">
