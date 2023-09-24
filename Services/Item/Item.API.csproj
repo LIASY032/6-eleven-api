@@ -35,4 +35,9 @@
     <InternalsVisibleTo Include="$(AssemblyName).Test" />
   </ItemGroup>
 
+   <ItemGroup>
+     <ProjectReference Include="..\Common\Service.Common.csproj">
+       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+     </ProjectReference>
+   </ItemGroup>
 </Project>

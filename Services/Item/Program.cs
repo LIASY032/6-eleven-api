@@ -1,6 +1,7 @@
 ﻿using Item.API.Configurations;
 using Item.API.Data;
 using Item.API.Repositories;
+using Services.Common.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
