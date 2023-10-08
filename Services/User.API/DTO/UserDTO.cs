@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using User.API.Entities;
 
 namespace User.API.DTO
 {
@@ -11,6 +12,7 @@ namespace User.API.DTO
         [Required]
         public string LastName { get; set; }
         public bool IsAmin { get; set; } = false;
+        public IList<UserCartItem> Carts { get; set; }
     }
 }
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using AutoMapper;
+using User.API.DTO;
+using User.API.Entities;
 
 namespace Item.API.Configurations
 {
@@ -7,7 +9,9 @@ namespace Item.API.Configurations
     {
 		public MapperConfig()
 		{
-			CreateMap<Product, ProductDTO>().ReverseMap();
+			CreateMap<UserDTO, UserData>().ReverseMap();
+			CreateMap<LoginDto, UserData>().ReverseMap();
+			CreateMap<AuthResponseDTO, UserData>().ReverseMap();
 		}
 	}
 }
