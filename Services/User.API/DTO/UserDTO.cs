@@ -13,6 +13,10 @@ namespace User.API.DTO
         public string LastName { get; set; }
         public bool IsAmin { get; set; } = false;
         public IList<UserCartItem> Carts { get; set; }
+        [Required]
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public List<string> devices{ get; set; }
     }
 }
 

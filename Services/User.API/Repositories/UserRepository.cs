@@ -21,14 +21,50 @@ namespace User.API.Repositories
             this._configuration = configuration;
             _logger = logger;
         }
-        public Task<IEnumerable<IdentityError>> Register(UserDTO userDto)
+        public async Task<IEnumerable<IdentityError>> Register(UserDTO userDto)
         {
-            throw new NotImplementedException();
+            var user =await  _userManager.FindByEmailAsync(userDto.Email);
+            if (user != null ) {
+                _logger.LogWarning($"User with email {userDto.Email} was found");
+
+                return null;
+            }
+            var result = await _userManager.CreateAsync(_mapper.Map<UserData>(userDto), userDto.Password);
+            if (result.Succeeded)
+            {
+                if (userDto.IsAmin) { 
+
+                await _userManager.AddToRoleAsync(_user, "Admin");
+                }
+                else { 
+
+                await _userManager.AddToRoleAsync(_user, "User");
+		}
+            }
+
+            return result.Errors;
+
         }
 
-        public Task<AuthResponseDTO> Login(UserDTO loginDto)
+        public async Task<AuthResponseDTO> Login(UserDTO loginDto)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"looking for user with email {loginDto.Email}");
+            _user = await _userManager.FindByEmailAsync(loginDto.Email);
+            bool isValidUser = await _userManager.CheckPasswordAsync(_user, loginDto.Password);
+
+            if (_user == null || isValidUser == false)
+            {
+
+                _logger.LogWarning($"User with email {loginDto.Email} was not found");
+
+                return null;
+            }
+
+            return new AuthResponseDTO
+            {
+                UserId = _user.Id,
+                RefreshToken = await CreateRefreshToken()
+            };
         }
 
         public Task<string> CreateRefreshToken()
