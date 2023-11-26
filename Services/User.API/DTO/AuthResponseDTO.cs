@@ -4,10 +4,9 @@ namespace User.API.DTO
 	public class AuthResponseDTO
 	{
         public string UserId { get; set; }
-        public string Token { get; set; }
-        public string RefreAhToken { get; set; }
+        public string RefreshToken { get; set; }
         public Boolean isAdmin{ get; set; }
-        public List<string> devices{ get; set; }
+        public IList<string> devices{ get; set; }
     }
 }
 
